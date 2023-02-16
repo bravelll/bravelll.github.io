@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>乔帮主随笔</title>
+    <link>https://www.dennisthink.com/</link>
+    <description>Recent content on 乔帮主随笔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 16 Feb 2023 07:24:46 +0000</lastBuildDate>
+    
+        <atom:link href="https://www.dennisthink.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>关于</title>
+      <link>https://www.dennisthink.com/about/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://www.dennisthink.com/about/</guid>
+      
+        <description>&lt;p&gt;大家好，很高兴你来我的博客，以下是我的一点介绍。&lt;/p&gt;
+&lt;p&gt;我叫darrel，目前在大连从事软件架构设计开发的工作，编程语言是golang，领域为云原生。&lt;/p&gt;
+&lt;p&gt;上班用linux，有关的问题可以交流。&lt;/p&gt;
+&lt;p&gt;喜欢golang,Ubuntu。&lt;/p&gt;
+&lt;p&gt;我的博客园: &lt;a href=&#34;https://bravelll.github.io/&#34;&gt;https://bravelll.github.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我的Github:https://github.com/bravelll\&lt;/p&gt;
+</description>
+      
+    </item>
+    
+    <item>
+      <title>容器代理</title>
+      <link>https://www.dennisthink.com/post/my-first-post/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://www.dennisthink.com/post/my-first-post/</guid>
+      
+        <description>&lt;p&gt;通过容器代理可以实现翻墙外国网站&lt;/p&gt;
+&lt;h2 id=&#34;通过容器代理可以实现翻墙外国网站&#34;&gt;通过容器代理可以实现翻墙外国网站&lt;/h2&gt;
+&lt;p&gt;通过修改相关配置实现containerd和dockerd的代理.&lt;/p&gt;
+&lt;h2 id=&#34;containerd&#34;&gt;containerd&lt;/h2&gt;
+&lt;p&gt;实现步骤:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir /etc/systemd/system/containerd.service.d/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat /etc/systemd/system/containerd.service.d/http-proxy.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[Service]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;HTTP_PROXY=http://10.1.1.12:8118&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;HTTPS_PROXY=http://10.1.1.12:8118&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;NO_PROXY=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;systemctl daemon-reload;systemctl restart containerd.service
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;dockerd&#34;&gt;dockerd&lt;/h2&gt;
+&lt;p&gt;实现步骤:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p /etc/systemd/system/docker.service.d
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat /etc/systemd/system/docker.service.d/http-proxy.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[Service]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;HTTP_PROXY=http://10.1.1.12:8118&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;HTTPS_PROXY=http://10.1.1.12:8118&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Environment=&amp;#34;NO_PROXY=localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;systemctl daemon-reload;systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;chatgpt&#34;&gt;chatGPT&lt;/h2&gt;
+&lt;p&gt;ChatGPT（全名：Chat Generative Pre-trained Transformer[2]）是由OpenAI开发的一个人工智能聊天机器人程序，于2022年11月推出。该程序使用基于GPT-3.5架构的大型语言模型并通过强化学习进行训练。&lt;/p&gt;
+&lt;p&gt;ChatGPT目前仍以文字方式互动，而除了可以透过人类自然对话方式进行交互，还可以用于相对复杂的语言工作，包括自动文本生成、自动问答、自动摘要等在内的多种任务。如：在自动文本生成方面，ChatGPT可以根据输入的文本自动生成类似的文本（剧本、歌曲、企划等），在自动问答方面，ChatGPT可以根据输入的问题自动生成答案。还具有编写和调试计算机程序的能力。[3]在推广期间，所有人可以免费注册，并在登入后免费使用ChatGPT实现与AI机器人对话[4]。&lt;/p&gt;
+&lt;p&gt;ChatGPT可以写出相似于真人程度的文章，并因其在许多知识领域给出详细的回答和清晰的答案而迅速获得关注，证明了从前认为不会被AI取代的知识型工作它也足以胜任，对于金融与白领人力市场的冲击相当大，但其事实准确性参差不齐被认为是一重大缺陷，其基于意识形态的模型训练结果并被认为需要小心地校正[5][6]。ChatGPT于2022年11月发布后，OpenAI估值已涨至290亿美元[7]。上线两个月后，用户数量达到1亿[8]。&lt;/p&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://www.dennisthink.com/css/hugo-easy-gallery.css&#34; /&gt;
+&lt;div class=&#34;box&#34;&gt;
+&lt;figure  itemprop=&#34;associatedMedia&#34;
+  itemscope itemtype=&#34;http://schema.org/ImageObject&#34; &gt;
+    &lt;div class=&#34;img&#34;&gt;
+      &lt;img itemprop=&#34;thumbnail&#34; src=&#34;https://www.dennisthink.com/image/chatgpt.png&#34; alt=&#34;最新chatGPT论文&#34;/&gt;
+    &lt;/div&gt;
+    &lt;a href=&#34;https://www.dennisthink.com/image/chatgpt.png&#34; itemprop=&#34;contentUrl&#34;&gt;&lt;/a&gt;
+      &lt;figcaption&gt;
+          &lt;p&gt;最新chatGPT论文&lt;/p&gt;
+      &lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/div&gt;</description>
+      
+    </item>
+    
+    <item>
+      <title>Search Results</title>
+      <link>https://www.dennisthink.com/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.dennisthink.com/search/</guid>
+      
+        <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

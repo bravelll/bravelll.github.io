@@ -2,9 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 乔帮主随笔</title>
-    <link>https://www.dennisthink.com/categories/</link>
+    <link>https://bravelll.github.io/categories/</link>
     <description>Recent content in Categories on 乔帮主随笔</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://www.dennisthink.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Mar 2023 07:38:47 +0000</lastBuildDate><atom:link href="https://bravelll.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bigdata</title>
+      <link>https://bravelll.github.io/categories/bigdata/</link>
+      <pubDate>Wed, 01 Mar 2023 07:38:47 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/categories/bigdata/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://bravelll.github.io/categories/golang/</link>
+      <pubDate>Wed, 01 Mar 2023 06:59:49 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>index</title>
+      <link>https://bravelll.github.io/categories/index/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/categories/index/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

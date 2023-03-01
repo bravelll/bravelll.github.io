@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://www.dennisthink.com/sitemap.xml
+Sitemap: https://bravelll.github.io/sitemap.xml

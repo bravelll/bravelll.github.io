@@ -2,9 +2,55 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 乔帮主随笔</title>
-    <link>https://www.dennisthink.com/tags/</link>
+    <link>https://bravelll.github.io/tags/</link>
     <description>Recent content in Tags on 乔帮主随笔</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://www.dennisthink.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Mar 2023 07:38:47 +0000</lastBuildDate><atom:link href="https://bravelll.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bigdata</title>
+      <link>https://bravelll.github.io/tags/bigdata/</link>
+      <pubDate>Wed, 01 Mar 2023 07:38:47 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/tags/bigdata/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://bravelll.github.io/tags/golang/</link>
+      <pubDate>Wed, 01 Mar 2023 06:59:49 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tag-1</title>
+      <link>https://bravelll.github.io/tags/tag-1/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/tags/tag-1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tag-2</title>
+      <link>https://bravelll.github.io/tags/tag-2/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/tags/tag-2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tag-3</title>
+      <link>https://bravelll.github.io/tags/tag-3/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/tags/tag-3/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

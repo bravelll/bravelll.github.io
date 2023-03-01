@@ -1,20 +1,20 @@
-<?xml-stylesheet type="text/xsl" href="https://www.dennisthink.com/sitemap.xsl"?>
+<?xml-stylesheet type="text/xsl" href="https://bravelll.github.io/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.dennisthink.com/en/categories/</loc>
+    <loc>https://bravelll.github.io/en/categories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.dennisthink.com/en/tags/</loc>
+    <loc>https://bravelll.github.io/en/tags/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://www.dennisthink.com/en/</loc>
+    <loc>https://bravelll.github.io/en/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

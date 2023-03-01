@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tag-1 on 乔帮主随笔</title>
+    <link>https://bravelll.github.io/tags/tag-1/</link>
+    <description>Recent content in tag-1 on 乔帮主随笔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 16 Feb 2023 07:24:46 +0000</lastBuildDate><atom:link href="https://bravelll.github.io/tags/tag-1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>容器代理</title>
+      <link>https://bravelll.github.io/post/%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/post/%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</guid>
+      <description>&lt;p&gt;通过容器代理可以实现翻墙外国网站&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

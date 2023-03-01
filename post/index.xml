@@ -2,26 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 乔帮主随笔</title>
-    <link>https://www.dennisthink.com/post/</link>
+    <link>https://bravelll.github.io/post/</link>
     <description>Recent content in Posts on 乔帮主随笔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 16 Feb 2023 07:24:46 +0000</lastBuildDate><atom:link href="https://www.dennisthink.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Mar 2023 07:38:47 +0000</lastBuildDate><atom:link href="https://bravelll.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>关于</title>
-      <link>https://www.dennisthink.com/about/</link>
+      <link>https://bravelll.github.io/about/</link>
       <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
       
-      <guid>https://www.dennisthink.com/about/</guid>
-      <description>大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫darrel，目前在大连从事软件架构设计开发的工作，编程语言是golang，领域为云原生</description>
+      <guid>https://bravelll.github.io/about/</guid>
+      <description>大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫darrel，目前从事架构设计开发工作，编程语言是golang，领域为云原生。 上班用li</description>
+    </item>
+    
+    <item>
+      <title>hadoop-基于docker-compose部署</title>
+      <link>https://bravelll.github.io/post/hadoop-%E5%9F%BA%E4%BA%8Edocker-compose%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Wed, 01 Mar 2023 07:38:47 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/post/hadoop-%E5%9F%BA%E4%BA%8Edocker-compose%E9%83%A8%E7%BD%B2/</guid>
+      <description>&lt;p&gt;hadoop集群基于docker-compose快速部署&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Etcd分布式选举</title>
+      <link>https://bravelll.github.io/post/etcd%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BE/</link>
+      <pubDate>Wed, 01 Mar 2023 06:59:49 +0000</pubDate>
+      
+      <guid>https://bravelll.github.io/post/etcd%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BE/</guid>
+      <description>&lt;p&gt;通过etcd实现的分布式选举&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>容器代理</title>
-      <link>https://www.dennisthink.com/post/my-first-post/</link>
+      <link>https://bravelll.github.io/post/%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</link>
       <pubDate>Thu, 16 Feb 2023 07:24:46 +0000</pubDate>
       
-      <guid>https://www.dennisthink.com/post/my-first-post/</guid>
+      <guid>https://bravelll.github.io/post/%E5%AE%B9%E5%99%A8%E4%BB%A3%E7%90%86/</guid>
       <description>&lt;p&gt;通过容器代理可以实现翻墙外国网站&lt;/p&gt;</description>
     </item>
     

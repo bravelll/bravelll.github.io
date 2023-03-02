@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>关于 - 乔帮主随笔</title>
+  <title>使用kubebuilder开发kubernetes核心资源(二) - 乔帮主随笔</title>
   
 
 <meta name="renderer" content="webkit" />
@@ -22,8 +22,9 @@
 
 <meta name="mobile-web-app-capable" content="yes">
 
-<meta name="author" content="乔帮主" />
-  <meta name="description" content="大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫bravelll，目前从事架构设计开发工作，编程语言是golang，领域为云原生。 上班用" />
+<meta name="author" content="乔峰" />
+  <meta name="description" content="使用kubebuilder开发kubernetes核心资源的webhook
+" />
 
   <meta name="keywords" content="Hugo, linux, emacs, CPU" />
 
@@ -35,7 +36,7 @@
 <meta name="generator" content="Hugo 0.110.0" />
 
 
-<link rel="canonical" href="https://bravelll.github.io/about/" />
+<link rel="canonical" href="https://bravelll.github.io/post/%E4%BD%BF%E7%94%A8kubebuilder%E5%BC%80%E5%8F%91kubernetes%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%BA%8C/" />
 
 
 
@@ -63,19 +64,19 @@
 <link rel="stylesheet" href="/css/copy-to-clipboard.css">
 
 
-<meta property="og:title" content="关于" />
-<meta property="og:description" content="大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫bravelll，目前从事架构设计开发工作，编程语言是golang，领域为云原生。 上班用" />
+<meta property="og:title" content="使用kubebuilder开发kubernetes核心资源(二)" />
+<meta property="og:description" content="使用kubebuilder开发kubernetes核心资源的webhook" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://bravelll.github.io/about/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-02-16T07:24:46+00:00" />
-<meta property="article:modified_time" content="2023-02-16T07:24:46+00:00" />
-<meta itemprop="name" content="关于">
-<meta itemprop="description" content="大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫bravelll，目前从事架构设计开发工作，编程语言是golang，领域为云原生。 上班用"><meta itemprop="datePublished" content="2023-02-16T07:24:46+00:00" />
-<meta itemprop="dateModified" content="2023-02-16T07:24:46+00:00" />
-<meta itemprop="wordCount" content="146">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="关于"/>
-<meta name="twitter:description" content="大家好，很高兴你来我的博客，以下是我的一点介绍。 我叫bravelll，目前从事架构设计开发工作，编程语言是golang，领域为云原生。 上班用"/>
+<meta property="og:url" content="https://bravelll.github.io/post/%E4%BD%BF%E7%94%A8kubebuilder%E5%BC%80%E5%8F%91kubernetes%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%BA%8C/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-02T03:41:04+00:00" />
+<meta property="article:modified_time" content="2023-03-02T03:41:04+00:00" />
+<meta itemprop="name" content="使用kubebuilder开发kubernetes核心资源(二)">
+<meta itemprop="description" content="使用kubebuilder开发kubernetes核心资源的webhook"><meta itemprop="datePublished" content="2023-03-02T03:41:04+00:00" />
+<meta itemprop="dateModified" content="2023-03-02T03:41:04+00:00" />
+<meta itemprop="wordCount" content="789">
+<meta itemprop="keywords" content="kubebuilder," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用kubebuilder开发kubernetes核心资源(二)"/>
+<meta name="twitter:description" content="使用kubebuilder开发kubernetes核心资源的webhook"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -306,7 +307,7 @@
           <article class="post bg-white">
     
     <header class="post-header">
-      <h1 class="post-title">关于</h1>
+      <h1 class="post-title">使用kubebuilder开发kubernetes核心资源(二)</h1>
       
 
       <div class="post-meta">
@@ -314,15 +315,15 @@
     by
       <a href="/about">
         <span class="post-meta-author-name">
-          乔帮主
+          乔峰
         </span>
       </a>
     
   </div>
 
   <div class="post-meta-time">
-    <time datetime="2023-02-16">
-      2023-02-16
+    <time datetime="2023-03-02">
+      2023-03-02
     </time>
   </div>
 
@@ -331,11 +332,14 @@
 
   <div class="post-meta__right">
     <span class="post-meta-more">
-        约 146 字 -
-        预计阅读 1 分钟
+        约 789 字 -
+        预计阅读 2 分钟
       </span>
 
-    
+    <div class="post-meta-category">
+        <a href="https://bravelll.github.io/categories/operator/"> operator </a>
+          
+      </div>
 
 
     
@@ -351,45 +355,126 @@
 
     
     
-<div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">文章目录</h2>
-  <div class="post-toc-content">
-    <nav id="TableOfContents"></nav>
-  </div>
-</div>
 
 
     
     <div class="post-content">
-      <p>大家好，很高兴你来我的博客，以下是我的一点介绍。</p>
-<p>我叫bravelll，目前从事架构设计开发工作，编程语言是golang，领域为云原生。</p>
-<p>上班用linux，有关的问题可以交流。</p>
-<p>喜欢golang,Ubuntu。</p>
-<p>我的博客园: <a href="https://bravelll.github.io/">https://bravelll.github.io/</a></p>
-<p>我的Github:https://github.com/bravelll\</p>
-
+      <p>使用kubebuilder开发kubernetes核心资源的webhook</p>
+<ul>
+<li>
+<p>kubernetes 的准入控制器的开发，通常情况下要么使用 go 的 net/http 开发http 服务端来实现逻辑，更简单的方法是使用 conntronl-runtime 实现。</p>
+</li>
+<li>
+<p>我们用 kubebuilder 来开发 k8s operator 的时候，可以生成自定义资源的 webhook ，同时也能方便的生成资源清单。但无论是 kubebuilder 还是 operator-sdk 框架都无法实现 core type 资源的 webhook 。kubebuiler 的官方文档提到了 core type webbook 的开发，但并未具体提供具体的开发指导。</p>
+</li>
+<li>
+<p>那么如何利用 kubebuiler 来简化核心资源准入控制器的开发？下面就探索了一种方式。</p>
+</li>
+</ul>
+<h2 id="kubebuilder-webhook开发步骤">kubebuilder webhook开发步骤</h2>
+<ol>
+<li>
+<p>开发前准备<br>
+kubebuilder 3.9<br>
+go 1.20.1<br>
+kubectl 1.26.1</p>
+</li>
+<li>
+<p>生成代码框架</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#创建文件夹</span>
+</span></span><span class="line"><span class="cl">mkdir deployment-webhook
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> deployment-webhook/
+</span></span><span class="line"><span class="cl"><span class="c1">#生成代码框架</span>
+</span></span><span class="line"><span class="cl">go mod init github.com/bravelll/deployment-webhook
+</span></span><span class="line"><span class="cl">kubebuilder init --domain bravelll.github.io --license none --owner <span class="s2">&#34;bravelll&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#生成api，这里注意，我们要创建的是核心资源的 webhook，所以不需要生成 Resource (n) 和 需要Controller(n)</span>
+</span></span><span class="line"><span class="cl">kubebuilder create api --group apps --version v1 --kind Deployment
+</span></span></code></pre></div></li>
+<li>
+<p>生成webhook</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> kubebuilder create webhook --group apps --version v1 --kind Deployment --defaulting --programmatic-validation
+</span></span><span class="line"><span class="cl"> make manifests
+</span></span></code></pre></div><ol start="4">
+<li>修改文件deployment_webhook.go</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">//伪代码
+</span></span><span class="line"><span class="cl"><span class="nb">type</span> Deployment struct <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   *appsv1.Deployment <span class="sb">`</span>json:<span class="s2">&#34;,inline&#34;</span><span class="sb">`</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="5">
+<li>修改配置文件config/default/kustomization.yaml</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">bases:
+</span></span><span class="line"><span class="cl">- ../crd
+</span></span><span class="line"><span class="cl">- ../rbac
+</span></span><span class="line"><span class="cl">- ../manager
+</span></span><span class="line"><span class="cl"># [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix including the one in
+</span></span><span class="line"><span class="cl"># crd/kustomization.yaml
+</span></span><span class="line"><span class="cl">- ../webhook
+</span></span><span class="line"><span class="cl"># [CERTMANAGER] To enable cert-manager, uncomment all sections with &#39;CERTMANAGER&#39;. &#39;WEBHOOK&#39; components are required.
+</span></span><span class="line"><span class="cl">- ../certmanager
+</span></span><span class="line"><span class="cl"># [PROMETHEUS] To enable prometheus monitor, uncomment all sections with &#39;PROMETHEUS&#39;.
+</span></span><span class="line"><span class="cl">#- ../prometheus
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">patchesStrategicMerge:
+</span></span><span class="line"><span class="cl"># Protect the /metrics endpoint by putting it behind auth.
+</span></span><span class="line"><span class="cl"># If you want your controller-manager to expose the /metrics
+</span></span><span class="line"><span class="cl"># endpoint w/o any authn/z, please comment the following line.
+</span></span><span class="line"><span class="cl">- manager_auth_proxy_patch.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix including the one in
+</span></span><span class="line"><span class="cl"># crd/kustomization.yaml
+</span></span><span class="line"><span class="cl">#- manager_webhook_patch.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># [CERTMANAGER] To enable cert-manager, uncomment all sections with &#39;CERTMANAGER&#39;.
+</span></span><span class="line"><span class="cl"># Uncomment &#39;CERTMANAGER&#39; sections in crd/kustomization.yaml to enable the CA injection in the admission webhooks.
+</span></span><span class="line"><span class="cl"># &#39;CERTMANAGER&#39; needs to be enabled to use ca injection
+</span></span><span class="line"><span class="cl">#- webhookcainjection_patch.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># the following config is for teaching kustomize how to do var substitution
+</span></span><span class="line"><span class="cl">vars:
+</span></span><span class="line"><span class="cl"># [CERTMANAGER] To enable cert-manager, uncomment all sections with &#39;CERTMANAGER&#39; prefix.
+</span></span><span class="line"><span class="cl">- name: CERTIFICATE_NAMESPACE # namespace of the certificate CR
+</span></span><span class="line"><span class="cl">  objref:
+</span></span><span class="line"><span class="cl">    kind: Certificate
+</span></span><span class="line"><span class="cl">    group: cert-manager.io
+</span></span><span class="line"><span class="cl">    version: v1
+</span></span><span class="line"><span class="cl">    name: serving-cert # this name should match the one in certificate.yaml
+</span></span><span class="line"><span class="cl">  fieldref:
+</span></span><span class="line"><span class="cl">    fieldpath: metadata.namespace
+</span></span><span class="line"><span class="cl">- name: CERTIFICATE_NAME
+</span></span><span class="line"><span class="cl">  objref:
+</span></span><span class="line"><span class="cl">    kind: Certificate
+</span></span><span class="line"><span class="cl">    group: cert-manager.io
+</span></span><span class="line"><span class="cl">    version: v1
+</span></span><span class="line"><span class="cl">    name: serving-cert # this name should match the one in certificate.yaml
+</span></span><span class="line"><span class="cl">- name: SERVICE_NAMESPACE # namespace of the service
+</span></span><span class="line"><span class="cl">  objref:
+</span></span><span class="line"><span class="cl">    kind: Service
+</span></span><span class="line"><span class="cl">    version: v1
+</span></span><span class="line"><span class="cl">    name: webhook-service
+</span></span><span class="line"><span class="cl">  fieldref:
+</span></span><span class="line"><span class="cl">    fieldpath: metadata.namespace
+</span></span><span class="line"><span class="cl">- name: SERVICE_NAME
+</span></span><span class="line"><span class="cl">  objref:
+</span></span><span class="line"><span class="cl">    kind: Service
+</span></span><span class="line"><span class="cl">    version: v1
+</span></span><span class="line"><span class="cl">    name: webhook-service
+</span></span></code></pre></div><ol start="6">
+<li>运行</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">make
+</span></span><span class="line"><span class="cl">make install
+</span></span><span class="line"><span class="cl">make run
+</span></span></code></pre></div><p>引用相关文章
+&lt; <a href="https://songjlg.github.io/2021/10/19/">https://songjlg.github.io/2021/10/19/</a>使用kubebuilder开发kubernetes核心资源的webhook/&gt;
+<a href="https://developer.aliyun.com/article/878545">https://developer.aliyun.com/article/878545</a></p>
     </div>
 
     
     
-<div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">文章作者</span>
-    <span class="item-content">乔帮主</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">上次更新</span>
-    <span class="item-content">
-      2023-02-16
-      
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">许可协议</span>
-    <span class="item-content">乔帮主创作，转载请注明出处！</span>
-  </p>
-</div>
 
 
 
@@ -398,15 +483,31 @@
 
 
     <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="https://bravelll.github.io/tags/kubebuilder/">kubebuilder</a>
+            
+        </div>
 
 
       
       <nav class="post-nav">
         
+          <a class="prev" href="/about/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">关于</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         
-          <a class="next" href="/post/%E4%BD%BF%E7%94%A8kubebuilder%E5%BC%80%E5%8F%91kubernetes%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%BA%8C/">
-            <span class="next-text nav-default">使用kubebuilder开发kubernetes核心资源(二)</span>
+          <a class="next" href="/post/%E4%BD%BF%E7%94%A8kubebuilder%E5%BC%80%E5%8F%91kubernetes%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%B8%80/">
+            <span class="next-text nav-default">使用kubebuilder开发kubernetes核心资源(一)</span>
             <span class="prev-text nav-mobile">下一篇</span>
             
             <i class="iconfont">

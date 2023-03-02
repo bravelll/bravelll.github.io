@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>FlinkCDC&amp;SQL API 开发 - 乔帮主随笔</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="乔帮主" />
+  <meta name="description" content="Flink CDC&amp;amp;SQL开发 基于1.14.x版本
+" />
+
+  <meta name="keywords" content="Hugo, linux, emacs, CPU" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.110.0" />
+
+
+<link rel="canonical" href="https://bravelll.github.io/post/flinkcdcsql-api-%E5%BC%80%E5%8F%91/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.png" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.de22abc00de44766eebd1054fd9e0b254b071f89d5019044f893c484a9249a8d.css" integrity="sha256-3iKrwA3kR2buvRBU/Z4LJUsHH4nVAZBE&#43;JPEhKkkmo0=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/copy-to-clipboard.css">
+
+
+<meta property="og:title" content="FlinkCDC&amp;SQL API 开发" />
+<meta property="og:description" content="Flink CDC&amp;SQL开发 基于1.14.x版本" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bravelll.github.io/post/flinkcdcsql-api-%E5%BC%80%E5%8F%91/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-02T06:01:54+00:00" />
+<meta property="article:modified_time" content="2023-03-02T06:01:54+00:00" />
+<meta itemprop="name" content="FlinkCDC&amp;SQL API 开发">
+<meta itemprop="description" content="Flink CDC&amp;SQL开发 基于1.14.x版本"><meta itemprop="datePublished" content="2023-03-02T06:01:54+00:00" />
+<meta itemprop="dateModified" content="2023-03-02T06:01:54+00:00" />
+<meta itemprop="wordCount" content="1386">
+<meta itemprop="keywords" content="FlinkCDC,FlinkSQL," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FlinkCDC&amp;SQL API 开发"/>
+<meta name="twitter:description" content="Flink CDC&amp;SQL开发 基于1.14.x版本"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">乔帮主随笔</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/">主页</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.css" integrity="sha256-LWdHSKWG7zv3DTpee8YAgoTfkj3gNkfauF624h4P2Nw=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/default-skin/default-skin.min.css" integrity="sha256-Q9bBMw/rHRRag46GDWY84J3elDNc8JJjKXL9tIC4oe8=" crossorigin="anonymous" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      乔帮主随笔
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/">主页</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://bravelll.github.io/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    <li class="menu-item">
+      <a class="menu-item-link">
+        <form action="/search" method="GET">
+          <input type="search" name="s" id="search-query" placeholder="" >
+          <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="14" height="10" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><circle cx="10" cy="10" r="7"></circle><line x1="21" y1="21" x2="15" y2="15"></line></svg>
+          </button>
+        </form>
+      </a>
+    </li>
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight wallpaper">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">FlinkCDC&amp;SQL API 开发</h1>
+      
+
+      <div class="post-meta">
+  <div class="post-meta-author">
+    by
+      <a href="/about">
+        <span class="post-meta-author-name">
+          乔帮主
+        </span>
+      </a>
+    
+  </div>
+
+  <div class="post-meta-time">
+    <time datetime="2023-03-02">
+      2023-03-02
+    </time>
+  </div>
+
+  
+
+
+  <div class="post-meta__right">
+    <span class="post-meta-more">
+        约 1386 字 -
+        预计阅读 3 分钟
+      </span>
+
+    <div class="post-meta-category">
+        <a href="https://bravelll.github.io/categories/flink/"> Flink </a>
+          
+      </div>
+
+
+    
+    
+
+
+    
+    
+  </div>
+</div>
+
+    </header>
+
+    
+    
+
+
+    
+    <div class="post-content">
+      <p>Flink CDC&amp;SQL开发 基于1.14.x版本</p>
+<h2 id="开发步骤">开发步骤</h2>
+<ol>
+<li>添加pom.xml</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">&lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34;
+</span></span><span class="line"><span class="cl">	xmlns:xsi=&#34;http://www.w3.org/2001/XMLSchema-instance&#34;
+</span></span><span class="line"><span class="cl">	xsi:schemaLocation=&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;&gt;
+</span></span><span class="line"><span class="cl">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	&lt;groupId&gt;com.asiainfo&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">	&lt;artifactId&gt;flink14cdc&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">	&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+</span></span><span class="line"><span class="cl">	&lt;packaging&gt;jar&lt;/packaging&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	&lt;name&gt;flink14cdc&lt;/name&gt;
+</span></span><span class="line"><span class="cl">	&lt;url&gt;http://maven.apache.org&lt;/url&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	&lt;properties&gt;
+</span></span><span class="line"><span class="cl">		&lt;flink.version&gt;1.14.6&lt;/flink.version&gt;
+</span></span><span class="line"><span class="cl">		&lt;scala.binary.version&gt;2.12&lt;/scala.binary.version&gt;
+</span></span><span class="line"><span class="cl">		&lt;flink.cdc.version&gt;2.3.0&lt;/flink.cdc.version&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	&lt;/properties&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	&lt;dependencies&gt;
+</span></span><span class="line"><span class="cl">		&lt;!-- https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java --&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-streaming-java_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">			&lt;!-- &lt;scope&gt;provided&lt;/scope&gt; --&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">    &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">    &lt;artifactId&gt;hadoop-client&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">    &lt;version&gt;3.1.3&lt;/version&gt;
+</span></span><span class="line"><span class="cl">    &lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-clients_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-table-api-java-bridge_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-avro&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka --&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-connector-kafka_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-connector-jdbc_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-table-common&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;com.ververica&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-connector-mysql-cdc&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.cdc.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;com.ververica&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-sql-connector-mysql-cdc&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.cdc.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-runtime-web_${scala.binary.version}&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-table-planner_2.12&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;1.2.75&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		&lt;!-- https://mvnrepository.com/artifact/ru.yandex.clickhouse/clickhouse-jdbc --&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;ru.yandex.clickhouse&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;clickhouse-jdbc&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;0.3.2&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;gson&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;2.10.1&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">		&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">			&lt;groupId&gt;org.apache.flink&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">			&lt;artifactId&gt;flink-table-api-scala_2.12&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">			&lt;version&gt;${flink.version}&lt;/version&gt;
+</span></span><span class="line"><span class="cl">		&lt;/dependency&gt;
+</span></span><span class="line"><span class="cl">	&lt;/dependencies&gt;
+</span></span><span class="line"><span class="cl">	&lt;build&gt;
+</span></span><span class="line"><span class="cl">		&lt;plugins&gt;
+</span></span><span class="line"><span class="cl">			&lt;plugin&gt;
+</span></span><span class="line"><span class="cl">				&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">				&lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">				&lt;version&gt;3.0.0&lt;/version&gt;
+</span></span><span class="line"><span class="cl">				&lt;configuration&gt;
+</span></span><span class="line"><span class="cl">					&lt;descriptorRefs&gt;
+</span></span><span class="line"><span class="cl">						&lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;
+</span></span><span class="line"><span class="cl">					&lt;/descriptorRefs&gt;
+</span></span><span class="line"><span class="cl">				&lt;/configuration&gt;
+</span></span><span class="line"><span class="cl">				&lt;executions&gt;
+</span></span><span class="line"><span class="cl">					&lt;execution&gt;
+</span></span><span class="line"><span class="cl">						&lt;id&gt;make-assembly&lt;/id&gt;
+</span></span><span class="line"><span class="cl">						&lt;phase&gt;package&lt;/phase&gt;
+</span></span><span class="line"><span class="cl">						&lt;goals&gt;
+</span></span><span class="line"><span class="cl">							&lt;goal&gt;single&lt;/goal&gt;
+</span></span><span class="line"><span class="cl">						&lt;/goals&gt;
+</span></span><span class="line"><span class="cl">					&lt;/execution&gt;
+</span></span><span class="line"><span class="cl">				&lt;/executions&gt;
+</span></span><span class="line"><span class="cl">			&lt;/plugin&gt;
+</span></span><span class="line"><span class="cl">		&lt;/plugins&gt;
+</span></span><span class="line"><span class="cl">	&lt;/build&gt;
+</span></span><span class="line"><span class="cl">&lt;/project&gt;
+</span></span></code></pre></div><ol start="2">
+<li>FlinkSQL开发</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.XXX.flink14cdc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.table.api.bridge.java.StreamTableEnvironment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.table.api.Table</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.types.Row</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span>  <span class="nn">org.apache.flink.streaming.api.datastream.DataStream</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.time.ZoneId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.api.java.tuple.Tuple2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FlinkSQL</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//1.执行环境
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">StreamExecutionEnvironment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">env</span><span class="o">.</span><span class="na">enableCheckpointing</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">//env.setParallelism(1);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">StreamTableEnvironment</span> <span class="n">tableEnv</span> <span class="o">=</span> <span class="n">StreamTableEnvironment</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">env</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">String</span> <span class="n">ddlsql</span><span class="o">=</span><span class="s">&#34; CREATE TABLE user_source (&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    database_name STRING METADATA VIRTUAL,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    table_name STRING METADATA VIRTUAL,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    `id` DECIMAL(20, 0) NOT NULL,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    name STRING,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    address STRING,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    phone_number STRING,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    email STRING,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    PRIMARY KEY (`id`) NOT ENFORCED&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;  ) WITH (&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;connector&#39; = &#39;mysql-cdc&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">//&#34; &#39;scan.startup.mode&#39; = &#39;initial&#39;, &#34;+
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="s">&#34; &#39;scan.startup.mode&#39; = &#39;latest-offset&#39;, &#34;</span><span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;server-time-zone&#39; = &#39;UTC&#39;, &#34;</span><span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;hostname&#39; = &#39;10.1.3.21&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;port&#39; = &#39;3306&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;username&#39; = &#39;root&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;password&#39; = &#39;123456&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;database-name&#39; = &#39;db_[0-9]+&#39;,&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;    &#39;table-name&#39; = &#39;user_[0-9]+&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">				<span class="s">&#34;  )&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">tableEnv</span><span class="o">.</span><span class="na">executeSql</span><span class="o">(</span><span class="n">ddlsql</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">       <span class="c1">//Table table= tableEnv.sqlQuery(&#34;select * from user_info&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">Table</span> <span class="n">table</span><span class="o">=</span> <span class="n">tableEnv</span><span class="o">.</span><span class="na">sqlQuery</span><span class="o">(</span><span class="s">&#34;select * from user_source&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">       <span class="n">tableEnv</span><span class="o">.</span><span class="na">toChangelogStream</span><span class="o">(</span><span class="n">table</span><span class="o">).</span><span class="na">print</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">	   <span class="n">env</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;flinkSQLCDC&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="3">
+<li>FlinkCDC KAFKA 开发</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.XXX.flink14cdc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.XXX.flink14cdc.func.ClickhouseSink</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.XXX.flink14cdc.serialization.CustomerDeserializationSchema</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.mysql.source.MySqlSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.api.common.eventtime.WatermarkStrategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.connector.kafka.sink.KafkaSink</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.runtime.state.hashmap.HashMapStateBackend</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.CheckpointingMode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.datastream.DataStreamSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.kafka.common.serialization.StringSerializer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FlinkKafka</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//1.获取flink 执行环境
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">StreamExecutionEnvironment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">setParallelism</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//2.启动检查点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">enableCheckpointing</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointTimeout</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointingMode</span><span class="o">(</span><span class="n">CheckpointingMode</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setMaxConcurrentCheckpoints</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 设置使用 HashMapStateBackend，Task State 存储于 TaskManager 堆内存中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">setStateBackend</span><span class="o">(</span><span class="k">new</span> <span class="n">HashMapStateBackend</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 这样设置 checkpoint 的 state 存储方式：把 job State 存储在 JobManager 的堆内存中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointStorage</span><span class="o">(</span><span class="k">new</span> <span class="n">JobManagerCheckpointStorage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 需要设置外部高可用文件系统存储路径用来保存 Job State
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//env.getCheckpointConfig().setCheckpointStorage(&#34;hdfs://hadoop10/flink/checkpoints&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">MySqlSource</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mySqlSource</span> <span class="o">=</span> <span class="n">MySqlSource</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">().</span><span class="na">hostname</span><span class="o">(</span><span class="s">&#34;10.1.3.75&#34;</span><span class="o">).</span><span class="na">port</span><span class="o">(</span><span class="mi">30306</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">databaseList</span><span class="o">(</span><span class="s">&#34;eseap&#34;</span><span class="o">)</span> <span class="c1">// set captured database
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">tableList</span><span class="o">(</span><span class="s">&#34;eseap.user_info&#34;</span><span class="o">)</span> <span class="c1">// set captured table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">username</span><span class="o">(</span><span class="s">&#34;root&#34;</span><span class="o">).</span><span class="na">password</span><span class="o">(</span><span class="s">&#34;123456&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// .scanNewlyAddedTableEnabled(true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">deserializer</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomerDeserializationSchema</span><span class="o">())</span> <span class="c1">// converts SourceRecord to JString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.deserializer(new MyJsonDebeziumDeserializationSchema()) // converts SourceRecord to JString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.startupOptions(StartupOptions.initial())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.startupOptions(StartupOptions.earliest())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// .includeSchemaChanges(true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">serverTimeZone</span><span class="o">(</span><span class="s">&#34;UTC&#34;</span><span class="o">).</span><span class="na">serverId</span><span class="o">(</span><span class="s">&#34;5300&#34;</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DataStreamSource</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">streamSource</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromSource</span><span class="o">(</span><span class="n">mySqlSource</span><span class="o">,</span> <span class="n">WatermarkStrategy</span><span class="o">.</span><span class="na">noWatermarks</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;mysql-source&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">streamSource</span><span class="o">.</span><span class="na">setParallelism</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//打印
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">streamSource</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//下沉kafka
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">KafkaSink</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">sink</span> <span class="o">=</span> <span class="n">KafkaSink</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">().</span><span class="na">setBootstrapServers</span><span class="o">(</span><span class="s">&#34;10.1.3.21:9092&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//.setTransactionalIdPrefix(&#34;my-trx-id-prefix&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">setRecordSerializer</span><span class="o">(</span><span class="n">KafkaRecordSerializationSchema</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">setTopic</span><span class="o">(</span><span class="s">&#34;usertopic&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">setKafkaKeySerializer</span><span class="o">(</span><span class="n">StringSerializer</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">setKafkaValueSerializer</span><span class="o">(</span><span class="n">StringSerializer</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//下沉kafka
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">streamSource</span><span class="o">.</span><span class="na">sinkTo</span><span class="o">(</span><span class="n">sink</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//启动任务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;mysql-to-kafka-cdc&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="4">
+<li>FlinkCDC ClickHouse 开发</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.xxx.flink14cdc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.xxx.flink14cdc.func.ClickhouseSink</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.xxx.flink14cdc.serialization.CustomerDeserializationSchema</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.mysql.source.MySqlSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.api.common.eventtime.WatermarkStrategy</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.runtime.state.hashmap.HashMapStateBackend</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.CheckpointingMode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.datastream.DataStreamSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.environment.StreamExecutionEnvironment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FlinkCK</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//1.获取flink 执行环境
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">StreamExecutionEnvironment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">setParallelism</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//2.启动检查点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">enableCheckpointing</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointTimeout</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointingMode</span><span class="o">(</span><span class="n">CheckpointingMode</span><span class="o">.</span><span class="na">EXACTLY_ONCE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setMaxConcurrentCheckpoints</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 设置使用 HashMapStateBackend，Task State 存储于 TaskManager 堆内存中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">setStateBackend</span><span class="o">(</span><span class="k">new</span> <span class="n">HashMapStateBackend</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 这样设置 checkpoint 的 state 存储方式：把 job State 存储在 JobManager 的堆内存中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">getCheckpointConfig</span><span class="o">().</span><span class="na">setCheckpointStorage</span><span class="o">(</span><span class="k">new</span> <span class="n">JobManagerCheckpointStorage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 需要设置外部高可用文件系统存储路径用来保存 Job State
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">//env.getCheckpointConfig().setCheckpointStorage(&#34;hdfs://hadoop10/flink/checkpoints&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">MySqlSource</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mySqlSource</span> <span class="o">=</span> <span class="n">MySqlSource</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">().</span><span class="na">hostname</span><span class="o">(</span><span class="s">&#34;10.1.3.75&#34;</span><span class="o">).</span><span class="na">port</span><span class="o">(</span><span class="mi">30306</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">databaseList</span><span class="o">(</span><span class="s">&#34;eseap&#34;</span><span class="o">)</span> <span class="c1">// set captured database
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">tableList</span><span class="o">(</span><span class="s">&#34;eseap.user_info&#34;</span><span class="o">)</span> <span class="c1">// set captured table
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">username</span><span class="o">(</span><span class="s">&#34;root&#34;</span><span class="o">).</span><span class="na">password</span><span class="o">(</span><span class="s">&#34;123456&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// .scanNewlyAddedTableEnabled(true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">deserializer</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomerDeserializationSchema</span><span class="o">())</span> <span class="c1">// converts SourceRecord to JString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.deserializer(new MyJsonDebeziumDeserializationSchema()) // converts SourceRecord to JString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.startupOptions(StartupOptions.initial())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//.startupOptions(StartupOptions.earliest())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// .includeSchemaChanges(true)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="o">.</span><span class="na">serverTimeZone</span><span class="o">(</span><span class="s">&#34;UTC&#34;</span><span class="o">).</span><span class="na">serverId</span><span class="o">(</span><span class="s">&#34;5300&#34;</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DataStreamSource</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">streamSource</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromSource</span><span class="o">(</span><span class="n">mySqlSource</span><span class="o">,</span> <span class="n">WatermarkStrategy</span><span class="o">.</span><span class="na">noWatermarks</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                <span class="s">&#34;mysql-source&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">streamSource</span><span class="o">.</span><span class="na">setParallelism</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//打印
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">streamSource</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//下沉ck
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">streamSource</span><span class="o">.</span><span class="na">addSink</span><span class="o">(</span><span class="k">new</span> <span class="n">ClickhouseSink</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//启动任务
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">env</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;mysql-to-ck-cdc&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="5">
+<li>自定义下沉组件ClickhouseSink 开发</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.google.gson.internal.LinkedTreeMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.configuration.Configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.streaming.api.functions.sink.RichSinkFunction</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span>  <span class="kd">class</span> <span class="nc">ClickhouseSink</span> <span class="kd">extends</span> <span class="n">RichSinkFunction</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Connection</span> <span class="n">connection</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PreparedStatement</span> <span class="n">pstmt</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">insertsql</span> <span class="o">=</span> <span class="s">&#34;insert into sink_ck_user_info(id,name,sex) values (?,?,?)&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">deletesql</span><span class="o">=</span><span class="s">&#34;ALTER TABLE sink_ck_user_info DELETE WHERE id = ?&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">updatesql</span><span class="o">=</span><span class="s">&#34;ALTER TABLE sink_ck_user_info UPDATE name = ?, sex=?  WHERE id=?&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Connection</span> <span class="nf">getConnection</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;ru.yandex.clickhouse.ClickHouseDriver&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&#34;jdbc:clickhouse://10.1.3.71:8123/default&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span><span class="s">&#34;default&#34;</span><span class="o">,</span><span class="s">&#34;123456&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">conn</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">open</span><span class="o">(</span><span class="n">Configuration</span> <span class="n">parameters</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="n">parameters</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">connection</span> <span class="o">=</span> <span class="n">getConnection</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//insertpstmt = connection.prepareStatement(insertsql);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//每条记录插入时调用一次
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//{&#34;op&#34;:&#34;CREATE&#34;,&#34;before&#34;:{},&#34;after&#34;:{&#34;sex&#34;:&#34;male&#34;,&#34;name&#34;:&#34;liuys5&#34;,&#34;id&#34;:&#34;5&#34;},&#34;db&#34;:&#34;eseap&#34;,&#34;tableName&#34;:&#34;user_info&#34;}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Gson</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">hs</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">value</span><span class="o">,</span><span class="n">HashMap</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">database</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;db&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">table</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;tableName&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">op</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;op&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="s">&#34;eseap&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">database</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="s">&#34;user_info&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">table</span><span class="o">)){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="o">(</span><span class="s">&#34;CREATE&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">)){</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;insert =&gt; &#34;</span><span class="o">+</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="o">(</span><span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;after&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">sex</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;sex&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">id</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 未前面的占位符赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">pstmt</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">insertsql</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">sex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&#34;DELETE&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;delete =&gt; &#34;</span><span class="o">+</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="o">(</span><span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;before&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">id</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 未前面的占位符赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">pstmt</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">deletesql</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&#34;UPDATE&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;update =&gt; &#34;</span><span class="o">+</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="o">(</span><span class="n">LinkedTreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;)</span><span class="n">hs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;after&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">sex</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;sex&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">id</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">data</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 未前面的占位符赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">pstmt</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">updatesql</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">sex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pstmt</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="n">pstmt</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="n">connection</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">connection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="6">
+<li>自定义序列化组件CustomerDeserializationSchema</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.xxx.flink14cdc.serialization</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.api.common.typeinfo.TypeInformation</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.util.Collector</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.source.SourceRecord</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.debezium.DebeziumDeserializationSchema</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.apache.flink.api.common.typeinfo.BasicTypeInfo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.data.Field</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.data.Schema</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.ververica.cdc.connectors.shaded.org.apache.kafka.connect.data.Struct</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.alibaba.fastjson.JSONObject</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">io.debezium.data.Envelope</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerDeserializationSchema</span> <span class="kd">implements</span> <span class="n">DebeziumDeserializationSchema</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * 
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="n">TypeInformation</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getProducedType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">BasicTypeInfo</span><span class="o">.</span><span class="na">STRING_TYPE_INFO</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">	<span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * {
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * &#34;db&#34;:&#34;&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * &#34;tablename&#34;:&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * &#34;before&#34;:{&#34;id&#34;:&#34;001&#34;,&#34;name&#34;:&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * &#34;after&#34;:{&#34;id&#34;:&#34;001&#34;,&#34;name&#34;:&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * &#34;op&#34;:&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 * }
+</span></span></span><span class="line"><span class="cl"><span class="cm">	 */</span>
+</span></span><span class="line"><span class="cl">	<span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">deserialize</span><span class="o">(</span><span class="n">SourceRecord</span> <span class="n">sourceRecord</span><span class="o">,</span> <span class="n">Collector</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collector</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		        <span class="c1">//創建json對象封裝數據
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">JSONObject</span> <span class="n">result</span><span class="o">=</span><span class="k">new</span> <span class="n">JSONObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">//獲取數據庫和表名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">String</span>  <span class="n">topic</span> <span class="o">=</span><span class="n">sourceRecord</span><span class="o">.</span><span class="na">topic</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">				<span class="n">String</span><span class="o">[]</span> <span class="n">fields</span><span class="o">=</span><span class="n">topic</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\\.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;db&#34;</span><span class="o">,</span> <span class="n">fields</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;tableName&#34;</span><span class="o">,</span> <span class="n">fields</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">				
+</span></span><span class="line"><span class="cl">				<span class="c1">//before數據
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">Struct</span> <span class="n">value</span><span class="o">=(</span><span class="n">Struct</span><span class="o">)</span><span class="n">sourceRecord</span><span class="o">.</span><span class="na">value</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">				<span class="n">Struct</span> <span class="n">before</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="na">getStruct</span><span class="o">(</span><span class="s">&#34;before&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">JSONObject</span> <span class="n">beforeJson</span><span class="o">=</span><span class="k">new</span> <span class="n">JSONObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="o">(</span><span class="n">before</span> <span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">					<span class="c1">//获取列信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>					<span class="n">Schema</span> <span class="n">schema</span> <span class="o">=</span><span class="n">before</span><span class="o">.</span><span class="na">schema</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">					<span class="n">List</span><span class="o">&lt;</span><span class="n">Field</span><span class="o">&gt;</span> <span class="n">fieldList</span><span class="o">=</span><span class="n">schema</span><span class="o">.</span><span class="na">fields</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">					<span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="n">field</span><span class="o">:</span><span class="n">fieldList</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">						<span class="n">beforeJson</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">name</span><span class="o">(),</span> <span class="n">before</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">field</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">					<span class="o">}</span>	
+</span></span><span class="line"><span class="cl">				<span class="o">}</span>
+</span></span><span class="line"><span class="cl">				<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;before&#34;</span><span class="o">,</span> <span class="n">beforeJson</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">//after 數據
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">Struct</span> <span class="n">after</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="na">getStruct</span><span class="o">(</span><span class="s">&#34;after&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="n">JSONObject</span> <span class="n">afterJson</span><span class="o">=</span><span class="k">new</span> <span class="n">JSONObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">				<span class="k">if</span> <span class="o">(</span><span class="n">after</span> <span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">					<span class="c1">//獲取列信息
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>					<span class="n">Schema</span> <span class="n">schema</span> <span class="o">=</span><span class="n">after</span><span class="o">.</span><span class="na">schema</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">					<span class="n">List</span><span class="o">&lt;</span><span class="n">Field</span><span class="o">&gt;</span> <span class="n">fieldList</span><span class="o">=</span><span class="n">schema</span><span class="o">.</span><span class="na">fields</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">					<span class="k">for</span> <span class="o">(</span><span class="n">Field</span> <span class="n">field</span><span class="o">:</span><span class="n">fieldList</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">						<span class="n">afterJson</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">name</span><span class="o">(),</span> <span class="n">after</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">field</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">					<span class="o">}</span>	
+</span></span><span class="line"><span class="cl">				<span class="o">}</span>
+</span></span><span class="line"><span class="cl">				<span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;after&#34;</span><span class="o">,</span> <span class="n">afterJson</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				
+</span></span><span class="line"><span class="cl">				<span class="c1">//獲取操作類型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">Envelope</span><span class="o">.</span><span class="na">Operation</span> <span class="n">operation</span><span class="o">=</span><span class="n">Envelope</span><span class="o">.</span><span class="na">operationFor</span><span class="o">(</span><span class="n">sourceRecord</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">			    <span class="n">result</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;op&#34;</span><span class="o">,</span> <span class="n">operation</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">				<span class="c1">//輸出數據
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="n">collector</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">toJSONString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div>
+    </div>
+
+    
+    
+
+
+
+    
+    
+
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://bravelll.github.io/tags/flinkcdc/">FlinkCDC</a>
+            <a href="https://bravelll.github.io/tags/flinksql/">FlinkSQL</a>
+            
+        </div>
+
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/about/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">关于</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="/post/%E4%BD%BF%E7%94%A8kubebuilder%E5%BC%80%E5%8F%91kubernetes%E6%A0%B8%E5%BF%83%E8%B5%84%E6%BA%90%E4%BA%8C/">
+            <span class="next-text nav-default">使用kubebuilder开发kubernetes核心资源(二)</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+    
+  
+
+
+  
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:bravelll112710@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://bravelll.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+    <br>晋ICP备18003008号
+  </span>
+  <span class="copyright-year">
+    &copy;
+    
+      2022 -
+    2023
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        乔帮主
+        
+      </span></span>
+  
+  
+  
+  
+</div>
+
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/slideout/1.0.1/slideout.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.fe83e11b4fbc9193d67e2c9db78bad21f8dc59fca0cacd8c1c3bb071bb16a852.js" integrity="sha256-/oPhG0&#43;8kZPWfiydt4utIfjcWfygys2MHDuwcbsWqFI=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script src="/js/load-photoswipe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk="
+      crossorigin="anonymous"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/copy-to-clipboard.js"></script>
+
+
+</body>
+</html>
